@@ -2,6 +2,8 @@
 #
 # A simple Samsung services disabler by Ian Macdonald.
 #
+# Tweaked by Veutexus to keep encryption.
+#
 # Use this to prime your device after installing TWRP.
 
 DEBUG=true
@@ -87,29 +89,9 @@ rm_from_manifest() {
 }
 
 disable_fbe() {
-  local md5
-  local i
+  ui_print " - Skipping file-based encryption (FBE) for /data..."
+  ui_print " -   Skipped to protect user privacy and security. If you actually want to disable FBE, please do NOT use this fork!"
 
-  ui_print " - Disabling file-based encryption (FBE) for /data..."
-
-  # S20/N20 range = fstab.exynos990.
-  # S10 range = fstab.exynos9820.
-  # Note 10 range = fstab.exynos9825.
-  # A[124]0 range = fstab.exynos7885.
-  # A50 = fstab.exynos9610.
-  # Tab A 10.1 range = fstab.exynos7885.
-  # Snapdragon devices = fstab.qcom.
-  #
-  for i in /vendor/etc/fstab.exynos* \
-	   /vendor/etc/fstab.qcom*; do
-    if [ -f $i ]; then
-      ui_print " -   Found $i."
-      md5=$( md5 $i )
-      # This comments out the offending line and adds an edited one.
-      sed -i -e 's/^\([^#].*\)fileencryption=[^,]*\(.*\)$/# &\n\1encryptable\2/g' $i
-      file_changed $i $md5
-    fi
-  done
 }
 
 disable_vaultkeeper() {
@@ -270,9 +252,11 @@ patch_libbluetooth() {
 
 ui_print " "
 print_full_bar
-print_justified "Multi-disabler v3.1 for Samsung devices"
+print_justified "Multi-disabler v3.1E for Samsung devices"
 print_justified "running Android 9 or later."
 print_justified "by Ian Macdonald"
+print_justified "Tweaked by Veutexus to keep encryption."
+print_justified "Disabling /data encryption is **NOT** recommended!"
 print_full_bar
 ui_print " "
 
