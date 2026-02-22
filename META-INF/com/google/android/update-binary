@@ -10,7 +10,6 @@ DEBUG=true
 ZIPFILE=$3
 ZIPNAME=${ZIPFILE##*/}
 OUTFD=$2
-ANDROID_ROOT=/system
 
 scr_wdth=50
 
